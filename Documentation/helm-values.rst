@@ -391,7 +391,7 @@
    * - :spelling:ignore:`clustermesh.apiserver.etcd.image`
      - Clustermesh API server etcd image.
      - object
-     - ``{"digest":"sha256:795d8660c48c439a7c3764c2330ed9222ab5db5bb524d8d0607cac76f7ba82a3","override":null,"pullPolicy":"IfNotPresent","repository":"quay.io/coreos/etcd","tag":"v3.5.4","useDigest":true}``
+     - ``{"digest":"sha256:42106a001d1be7fd22e48830071ceae0fe760ff2c5df8c76c0e3b586d8a1f0fc","override":null,"pullPolicy":"IfNotPresent","repository":"quay.io/coreos/etcd","tag":"v3.5.14","useDigest":true}``
    * - :spelling:ignore:`clustermesh.apiserver.etcd.init.resources`
      - Specifies the resources for etcd init container in the apiserver
      - object
