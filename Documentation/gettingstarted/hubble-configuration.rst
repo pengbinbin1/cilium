@@ -196,3 +196,42 @@ resolve this issue. Pick one of the options below:
                     --set webhook.tolerations='["operator": "Exists"]'
 
         Then configure an issuer and install Cilium.
+
+.. _hubble_configure_metrics_tls:
+
+Metrics TLS and Authentication
+===============================
+
+Starting with Cilium 1.16, Hubble supports configuring TLS on the Hubble metrics API in addition to the Hubble observer API.
+
+This can be done by specifying the listed options below to Helm at install or upgrade time, along with your existing Hubble TLS configuration options mentioned above.
+
+To enable TLS on the Hubble metrics API, add the following Helm flag to your list of options:
+
+::
+
+    --set hubble.metrics.tls.enabled=true # Enable TLS on the Hubble metrics API
+
+If you also want to enable authentication using mTLS on the Hubble metrics API, first create the ConfigMap with the CA certificate for verifying client certificates:
+
+::
+
+    kubectl -n kube-system create configmap hubble-metrics-ca --from-file=ca.crt
+
+Then, add the following flags to your Helm command to enable mTLS:
+
+::
+
+    --set hubble.metrics.tls.enabled=true                           # Enable TLS on the Hubble metrics API
+    --set hubble.metrics.tls.server.mtls.enabled=true           # Enable mTLS authentication on the Hubble metrics API
+    --set hubble.metrics.tls.server.mtls.name=hubble-metrics-ca # Use the CA certificate from the ConfigMap
+
+This will require clients authenticate using a client certificate signed by the provided CA certificate to access the Hubble metrics API.
+
+.. note::
+
+  When using TLS with the Hubble metrics API you will need to configure update
+  your Prometheus scrape configuration to use HTTPS by setting a ``tls_config``
+  and provide the path to the CA certificate. When using mTLS you will also
+  need to provide the client certificate and key for Prometheus to authenticate
+  to the Hubble metrics API.
